@@ -1,0 +1,58 @@
+import Vue from 'vue'
+
+import 'normalize.css/normalize.css' // A modern alternative to CSS resets
+
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
+
+import '@/styles/index.scss' // global css
+
+import App from './App'
+import store from './store'
+import router from './router'
+import {get, post, put, del} from './utils/request'
+import * as filters from './filters'
+
+import '@/icons' // icon
+import '@/permission' // permission control
+
+/**
+ * If you don't want to use mock-server
+ * you want to use MockJs for mock api
+ * you can execute: mockXHR()
+ *
+ * Currently MockJs will be used in the production environment,
+ * please remove it before going online! ! !
+ */
+// import { mockXHR } from '../mock'
+// if (process.env.NODE_ENV === 'production') {
+//   mockXHR()
+// }
+
+// set ElementUI lang to zh-CN
+Vue.use(ElementUI, { size: 'medium', zIndex: 99, locale })
+
+/**
+ * 请求
+ */
+Vue.prototype.$get = get
+Vue.prototype.$post = post
+Vue.prototype.$put = put
+Vue.prototype.$del = del
+
+/**
+ * register global utility filters
+ */
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
+
+Vue.config.productionTip = false
+
+new Vue({
+  el: '#app',
+  router,
+  store,
+  render: h => h(App)
+})
