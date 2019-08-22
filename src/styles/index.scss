@@ -26,6 +26,13 @@ html {
   height: 100%;
 }
 
+/* Reset */
+html, body, p, ol, ul, li, dl, dt, dd, blockquote, figure, fieldset, legend,
+textarea, pre, iframe, hr, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
 *,
 *:before,
 *:after {
@@ -47,17 +54,6 @@ a:hover {
 
 div:focus {
   outline: none;
-}
-
-.clearfix {
-  &:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-  }
 }
 
 // main-container global css

@@ -71,7 +71,7 @@ export const asyncRoutes = [
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index'),
-        meta: { role: [0, 1], title: '表格', icon: 'table' }
+        meta: { role: [0, 1], title: '富文本', icon: 'table' }
       },
       {
         path: 'tree',

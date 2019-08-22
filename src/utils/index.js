@@ -6,7 +6,7 @@
  * Parse the time to string
  * @param {(Object|string|number)} time
  * @param {string} cFormat
- * @returns {string}
+ * @returns {null}
  */
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
@@ -37,7 +37,9 @@ export function parseTime(time, cFormat) {
   const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (key === 'a') {
+      return ['日', '一', '二', '三', '四', '五', '六'][value]
+    }
     if (result.length > 0 && value < 10) {
       value = '0' + value
     }
@@ -100,12 +102,12 @@ export function param2Obj(url) {
   }
   return JSON.parse(
     '{"' +
-      decodeURIComponent(search)
-        .replace(/"/g, '\\"')
-        .replace(/&/g, '","')
-        .replace(/=/g, '":"')
-        .replace(/\+/g, ' ') +
-      '"}'
+    decodeURIComponent(search)
+      .replace(/"/g, '\\"')
+      .replace(/&/g, '","')
+      .replace(/=/g, '":"')
+      .replace(/\+/g, ' ') +
+    '"}'
   )
 }
 
@@ -121,3 +123,54 @@ export function obj2Param(obj) {
   return j;
 }
 
+/**
+ * 获取流数据
+ * @param url
+ * @param data
+ * @param method
+ * @param success
+ * @param fail
+ */
+export function getFlowFile(url, data, method, success, fail) {
+  var xhr = new XMLHttpRequest();
+  xhr.responseType = "blob";
+  if (method.toUpperCase() === 'POST') {
+    xhr.open(method, url, true);
+    xhr.setRequestHeader("content-type", "application/json");
+    xhr.send(JSON.stringify(data));
+  }
+  if (method.toUpperCase() === 'GET') {
+    xhr.open(method, url, true);
+    xhr.send();
+  }
+  xhr.onload = function () {
+    if (this.status === 200) {
+      success(this.response);
+    } else {
+      fail(this.response);
+    }
+  }
+}
+
+/**
+ * 将流数据转换成base64数据
+ * @param data
+ * @param success
+ */
+export function blobToBase64Img(data, success) {
+  var reader = new FileReader();
+  // 完整的base64 数据
+  reader.readAsDataURL(data);
+  reader.onloadend = function () {
+    var base64 = this.result;
+    success(base64);
+  }
+}
+
+/**
+ *description: 判断手机号
+ *@return: true: 正确  false：错误
+ */
+export function checkPhone (phone) {
+  return /^1[3|4|5|6|8|7|9][0-9]\d{8}$/.test(phone);
+}
